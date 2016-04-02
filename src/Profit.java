@@ -18,19 +18,28 @@ No "shorting"—you must buy before you sell. You may not buy and sell in the same
 *******************************************************************/
 
 public class Profit {
-	int max;
-	int min;
-	int[] stockPricesYesterday = new int[]{10,7,5,8,11,9};
 	
-	public int getMaxProfit(int[] a)
+	public static int getMaxProfit(int[] a)
 	{
-		for(int i = 1; i <= a.length; i++)
-		{
-			max = (a[i] > max) ? a[i]:max;
-			min = (a[i] < min) ? a[i]:min;	
-		}
+		int  max = 0;
+		int trueMax = 0;
+		int  min = 0;
 		
-		return max - min;
+		for(int i = 1; i < a.length; i++)
+		{
+			max = (a[max] < a[i] && (i < min)) ? i:max;
+			trueMax = (a[trueMax] < a[i]) ? i:trueMax;
+			min = (a[i] < a[min]) ? i:min;
+		}
+		max = ((a[trueMax] > a[max]) && (trueMax < min)) ? trueMax:max;
+		return a[max] - a[min];
 	}
 	
+	public static void main(String[] args)
+	{
+		int[] stockPricesYesterday = new int[]{10,7,5,8,11,4,9};
+		int[] stockPricesYesterday2 = new int[]{10,7,5,8,4,11,4,9};
+		System.out.println("Best profit = "+getMaxProfit(stockPricesYesterday));
+		System.out.println("Best profit = "+getMaxProfit(stockPricesYesterday2));
+	}
 }
